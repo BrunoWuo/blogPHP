@@ -42,32 +42,32 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         <h3>Editar Post</h3>
         <div class="row offset-md-2">
              <input type="text" id="postagemId" class="form-control" name="txtPostagemId" 
-             value="<?= $postagem["postagem_id"]?>" hidden>
+             value="<?= htmlspecialchars($postagem["postagem_id"])?>" hidden>
             <div class="mb-3">
                 <label for="txtTituloPost" class="form-label">Título Post</label>
                 <input type="text" id="txtTituloPost" class="form-control" name="txtTituloPost" autofocus="true" 
-                value="<?= $postagem["titulo"]?>" required>
+                value="<?= htmlspecialchars($postagem["titulo"])?>" required>
             </div>
             <div class="mb-3">
                 <label for="txtResumoPost" class="form-label">Resumo Post</label>
                 <input type="text" id="txtResumoPost" class="form-control" name="txtResumoPost" autofocus="true" 
-                value="<?= $postagem["resumo"]?>" required>
+                value="<?= htmlspecialchars($postagem["resumo"])?>" required>
             </div>
 
             <div class="mb-3">
                 <label for="txtConteudoPost" class="form-label">Conteúdo Post</label>
-                <textarea type="text" id="txtConteudoPost" class="form-control" rows="10" name="txtConteudoPost" required><?= $postagem["conteudo"]?></textarea>
+                <textarea type="text" id="txtConteudoPost" class="form-control" rows="10" name="txtConteudoPost" required><?= htmlspecialchars($postagem["conteudo"])?></textarea>
             </div>
 
             <div class="mb-3">
                 <label for="impPost" class="col-sm-8 col-form-label">Imagem</label>
-                <img src="../img-posts/<?= $postagem["imagem_url"] ?? 'imgPadrao.png'?>" name="impPost" alt="" class="form-control" style="object-fit: scale-down; width: 450px; height: 250px;">
+                <img src="../img-posts/<?= htmlspecialchars($postagem['imagem_url']) ? htmlspecialchars($postagem['imagem_url']) : 'imgPadrao.png' ?>" name="impPost" alt="" class="form-control" style="object-fit: scale-down; width: 450px; height: 250px;">
             </div>
 
             <div class="mb-3">
                 <label for="poster_path" class="col-sm-8 col-form-label">Carregar Imagem</label>
                 <input type="file" name="imgPost" class="form-control" accept="image/png, image/jpeg">
-                <input type="text" name="imgName" value="<?= $postagem["imagem_url"]?>" hidden>
+                <input type="text" name="imgName" value="<?= htmlspecialchars($postagem["imagem_url"])?>" hidden>
             </div>
 
             <div class="mb-3">
