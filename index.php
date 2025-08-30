@@ -6,7 +6,11 @@ include_once("./service/conexao.php");
 
 
 // Mostrar dados do post
-$sql = "SELECT * FROM posts ORDER BY postagem_id";
+
+$sql = "SELECT p.*, u.nome as nomeUsuario FROM posts p
+        INNER JOIN usuarios u
+        ON p.usuario_id = u.usuario_id
+        ORDER BY postagem_id DESC";
 $select = $conexao->prepare($sql);
 
 if ($select->execute()) {
@@ -42,7 +46,7 @@ unset($conexao);
                     <div class="card mb-4">
                         <img class="card-img-to img-fluid rounded shadow" style="height: 250px; object-fit: cover" src="./img-posts/<?= htmlspecialchars($post['imagem_url']) ? htmlspecialchars($post['imagem_url']) : 'imgPadrao.png' ?>" alt="..." />
                         <div class="card-body">
-                            <div class="small text-muted"><?= htmlspecialchars(date('d/m/Y H:m', strtotime($post["data_criacao"]))) ?></div>
+                            <div class="small text-muted"><?= htmlspecialchars(date('d/m/Y H:m', strtotime($post["data_criacao"]))) ?> por <?= htmlspecialchars($post['nomeUsuario']) ?></div>
                             <h2 class="card-title h4"><?= htmlspecialchars($post['titulo']) ?></h2>
                             <p class="card-text"><?= htmlspecialchars($post['resumo']) ?></p>
                             <a class="" href="<?= ROOT_PATH ?>screens/detalhesPost.php?id=<?= htmlspecialchars($post["postagem_id"]) ?>">Veja mais →</a>
