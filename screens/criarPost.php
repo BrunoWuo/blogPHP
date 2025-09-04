@@ -23,7 +23,7 @@ include_once("../service/auth.php");
 
                 <div class="mb-3">
                     <label for="txtConteudoPost" class="form-label">Conteúdo Post</label>
-                    <textarea type="text" id="txtConteudoPost" class="form-control" rows="10" name="txtConteudoPost" required></textarea>
+                    <textarea type="text" id="txtConteudoPost" class="form-control" style="resize: none" rows="5" name="txtConteudoPost" required></textarea>
                 </div>
 
                 <div class="mb-3">

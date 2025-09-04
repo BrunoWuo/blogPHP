@@ -13,6 +13,7 @@ $postagem = null;
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $postagemId = filter_input(INPUT_GET, "id", FILTER_SANITIZE_NUMBER_INT);
+
     ##-------------------------------------
     ## SELECT Postagem por IDPostagem
     ##-------------------------------------    
@@ -40,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         FROM comentarios c        
         INNER JOIN usuarios u
         ON c.usuario_id = u.usuario_id
+        
         WHERE c.postagem_id = :postagemId
         ORDER BY postagem_id DESC";
     $selectComentario = $conexao->prepare($sqlComentario);
@@ -48,6 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
     if ($selectComentario->execute() && $selectComentario->rowCount() > 0) {
         $comentarios = $selectComentario->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        $comentarios = "";
     }
 
 
@@ -86,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
                     <input type="text" class="form-control" name="txtUsuarioId" value="<?= htmlspecialchars($idUser) ?>" hidden>
                     <input type="text" class="form-control" name="txtPostagemId" value="<?= htmlspecialchars($postagem['postagem_id']) ?>" hidden>
                     <label for="floatingInput">Digite o comentário</label>
-                    <textarea type="text" id="txtComentario" class="form-control" rows="10" name="txtConteudoPost" required></textarea>
+                    <textarea type="text" id="txtComentario" class="form-control" style="resize: none" rows="10" name="txtComentario" required></textarea>
                 </div>
                 <div class="mt-2">
                     <a href="<?= ROOT_PATH ?>index.php" class="btn btn-secondary">Voltar</a>
@@ -95,15 +99,20 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
             </form>
             <hr>
             <!-- Mostrar Comentarios -->
-            <?php foreach ($comentarios as $comentario) { ?>
-                <div class="card p-2">
-                    <p class="text-muted fst-italic">
-                        Comentado em <?= htmlspecialchars(date('d/m/Y H:m', strtotime($comentario["data_criacao"]))) ?>
-                        por <?= htmlspecialchars($comentario['nomeUsuario']) ?>
-                    </p>
-                    <p class="fs-5 mb-4"><?= htmlspecialchars($comentario['conteudo']) ?></p>
-                </div>
-            <?php } ?>
+            <?php
+            if ($comentarios) {
+                foreach ($comentarios as $comentario) { ?>
+                    <div class="card p-2">
+                        <p class="text-muted fst-italic">
+                            Comentado em <?= htmlspecialchars(date('d/m/Y H:m', strtotime($comentario["data_criacao"]))) ?>
+                            por <?= htmlspecialchars($comentario['nomeUsuario']) ?>
+                        </p>
+                        <p class="fs-5 mb-4"><?= htmlspecialchars($comentario['conteudo']) ?></p>
+                    </div>
+            <?php }
+            } else {
+                echo  "<p class='text-muted fst-italic'> Sem Comentários!</p>";
+            } ?>
         </div>
     </div>
 </div>
